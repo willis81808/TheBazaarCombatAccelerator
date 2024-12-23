@@ -41,4 +41,4 @@ You have two options for installing the mod:
 
 ## Support
 
-If you encounter any issues or have questions, feel free to open an issue and/or contact me on The Bazaar Modding Discord server ( @willis81808 ).
+If you encounter any issues or have questions, feel free to open an issue and/or contact me on The Bazaar Modding Discord server (@willis81808).
