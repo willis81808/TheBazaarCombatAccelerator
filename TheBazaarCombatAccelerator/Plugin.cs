@@ -10,7 +10,7 @@ namespace TheBazaarCombatAccelerator
     {
         public const string MOD_ID = "com.willis.thebazaar.combataccelerator";
         public const string MOD_NAME = "Combat Accelerator";
-        public const string MOD_VERSION = "0.0.1";
+        public const string MOD_VERSION = "1.0.0";
 
         public static ManualLogSource LOGGER { get; private set; }
 

@@ -16,7 +16,6 @@ namespace TheBazaarCombatAccelerator.Components
             new SpeedFactorSetting("2x", 2),
             new SpeedFactorSetting("3x", 3),
             new SpeedFactorSetting("5x", 5),
-            new SpeedFactorSetting("10x", 10),
         };
 
         private struct SpeedFactorSetting
