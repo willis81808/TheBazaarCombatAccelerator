@@ -20,11 +20,13 @@ namespace TheBazaarCombatAccelerator
         {
             LOGGER = Logger;
 
+            Assets.LoadAssets();
+            Logger.LogWarning("Assets Loaded!");
+
             var combatUtils = new GameObject("Combat Utils");
             combatUtils.AddComponent<CombatManager>();
             combatUtils.hideFlags = HideFlags.HideAndDontSave;
             DontDestroyOnLoad(combatUtils);
-
             LOGGER.LogWarning("Combat Accelerator Started!");
 
             Harmony.CreateAndPatchAll(typeof(Plugin).Assembly);

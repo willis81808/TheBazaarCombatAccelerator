@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using TheBazaar;
+using TheBazaarCombatAccelerator.Components;
 using TheBazaarCombatAccelerator.Plugins;
 
 namespace TheBazaarCombatAccelerator.Patches
@@ -29,7 +30,7 @@ namespace TheBazaarCombatAccelerator.Patches
 
         public static int GetSimulationDelay()
         {
-            return (int) (50 / CombatManager.SpeedFactor);
+            return (int) (50 / AccelerationController.SpeedFactor);
         }
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
