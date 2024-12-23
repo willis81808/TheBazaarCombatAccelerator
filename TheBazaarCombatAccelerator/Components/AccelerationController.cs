@@ -1,31 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using TheBazaar;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace TheBazaarCombatAccelerator.Components
 {
-    internal class AccelerationController : MonoBehaviour
+    public class AccelerationController : MonoBehaviour
     {
-        public static float SpeedFactor { get => timeFactorSettings[selectedTimeFactor].scalar; }
+        public static float SpeedFactor { get => speedFactorSettings[selectedSpeedFactor].scalar; }
 
-        private static int selectedTimeFactor = 0;
-        private static TimeFactorSetting[] timeFactorSettings = {
-            new TimeFactorSetting("1x", 1),
-            new TimeFactorSetting("2x", 2),
-            new TimeFactorSetting("3x", 3),
-            new TimeFactorSetting("5x", 5),
-            new TimeFactorSetting("10x", 10),
+        private static int selectedSpeedFactor = 0;
+        private static SpeedFactorSetting[] speedFactorSettings = {
+            new SpeedFactorSetting("1x", 1),
+            new SpeedFactorSetting("2x", 2),
+            new SpeedFactorSetting("3x", 3),
+            new SpeedFactorSetting("5x", 5),
+            new SpeedFactorSetting("10x", 10),
         };
 
-        private struct TimeFactorSetting
+        private struct SpeedFactorSetting
         {
             public string name;
             public float scalar;
 
-            public TimeFactorSetting(string name, float scalar)
+            public SpeedFactorSetting(string name, float scalar)
             {
                 this.name = name;
                 this.scalar = scalar;
@@ -36,35 +35,68 @@ namespace TheBazaarCombatAccelerator.Components
         private Button increaseButton;
         private TextMeshProUGUI displayText;
 
-        void Awake()
+        private bool inCombat = false;
+        private float cachedTimeScale = 1f;
+
+        private void Awake()
         {
             displayText = gameObject.transform.Find("Display Panel").GetComponentInChildren<TextMeshProUGUI>();
             decreaseButton = gameObject.transform.Find("Decrease Button").GetComponentInChildren<Button>();
             increaseButton = gameObject.transform.Find("Increase Button").GetComponentInChildren<Button>();
         }
 
-        void Start()
+        private void Start()
         {
             decreaseButton.onClick.AddListener(OnDecreaseClicked);
             increaseButton.onClick.AddListener(OnIncreaseClicked);
             UpdateText();
         }
 
+        private void OnEnable()
+        {
+            Events.CombatStarted.AddListener(OnCombatStarted, this);
+            Events.CombatantDied.AddListener(OnCombatEnded, this);
+        }
+
+        private void OnDisable()
+        {
+            Events.CombatStarted.RemoveListener(OnCombatStarted);
+            Events.CombatantDied.RemoveListener(OnCombatStarted);
+        }
+
+        private void Update()
+        {
+            if (!inCombat) return;
+            Time.timeScale = cachedTimeScale * SpeedFactor;
+        }
+
+        private void OnCombatStarted(object sender)
+        {
+            cachedTimeScale = Time.timeScale;
+            inCombat = true;
+        }
+
+        private void OnCombatEnded(object sender)
+        {
+            Time.timeScale = cachedTimeScale;
+            inCombat = false;
+        }
+
         private void OnDecreaseClicked()
         {
-            selectedTimeFactor = Math.Max(selectedTimeFactor - 1, 0);
+            selectedSpeedFactor = Math.Max(selectedSpeedFactor - 1, 0);
             UpdateText();
         }
 
         private void OnIncreaseClicked()
         {
-            selectedTimeFactor = Math.Min(selectedTimeFactor + 1, timeFactorSettings.Length - 1);
+            selectedSpeedFactor = Math.Min(selectedSpeedFactor + 1, speedFactorSettings.Length - 1);
             UpdateText();
         }
 
         private void UpdateText()
         {
-            displayText.text = timeFactorSettings[selectedTimeFactor].name;
+            displayText.text = speedFactorSettings[selectedSpeedFactor].name;
         }
     }
 }

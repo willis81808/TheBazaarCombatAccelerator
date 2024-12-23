@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TheBazaarCombatAccelerator
 {
-    internal static class Assets
+    public static class Assets
     {
         private static AssetBundle bundle;
 

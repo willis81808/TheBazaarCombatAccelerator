@@ -1,9 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using System;
-using TheBazaarCombatAccelerator.Plugins;
-using UnityEngine;
+using System.Reflection;
 
 namespace TheBazaarCombatAccelerator
 {
@@ -16,20 +14,14 @@ namespace TheBazaarCombatAccelerator
 
         public static ManualLogSource LOGGER { get; private set; }
 
-        void Awake()
+        private void Awake()
         {
             LOGGER = Logger;
 
             Assets.LoadAssets();
-            Logger.LogWarning("Assets Loaded!");
+            LOGGER.LogWarning("Assets Loaded!");
 
-            var combatUtils = new GameObject("Combat Utils");
-            combatUtils.AddComponent<CombatManager>();
-            combatUtils.hideFlags = HideFlags.HideAndDontSave;
-            DontDestroyOnLoad(combatUtils);
-            LOGGER.LogWarning("Combat Accelerator Started!");
-
-            Harmony.CreateAndPatchAll(typeof(Plugin).Assembly);
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
             LOGGER.LogWarning("Patches Applied!");
         }
     }

@@ -1,8 +1,4 @@
 ﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 using TheBazaar.UI.Components;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -17,10 +13,7 @@ namespace TheBazaarCombatAccelerator.Patches
         [HarmonyPostfix]
         static void Postfix(ExperienceBarController __instance)
         {
-            Assert.IsNotNull(Assets.AccelerationControls);
             GameObject instance = GameObject.Instantiate(Assets.AccelerationControls, __instance.gameObject.transform);
-            Plugin.LOGGER.LogWarning("Spawned Acceleration Controls!");
-
             __instance.gameObject.GetComponent<GraphicRaycaster>().enabled = true;
         }
     }

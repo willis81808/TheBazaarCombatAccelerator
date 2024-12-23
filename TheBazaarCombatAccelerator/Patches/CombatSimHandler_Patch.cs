@@ -1,18 +1,15 @@
 ﻿using HarmonyLib;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 using TheBazaar;
 using TheBazaarCombatAccelerator.Components;
-using TheBazaarCombatAccelerator.Plugins;
 
 namespace TheBazaarCombatAccelerator.Patches
 {
     [HarmonyPatch]
-    class CombatSimHandler_Patch
+    internal class CombatSimHandler_Patch
     {
         static MethodBase TargetMethod()
         {
